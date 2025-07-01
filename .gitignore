@@ -11,3 +11,5 @@ wheels/
 
 # "dot env" files used for local development
 .env
+
+.vscode/

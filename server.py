@@ -250,9 +250,7 @@ async def get_full_dataset(query: Query) -> str:
         query: Dictionary with three keys, "commodity", "location", and "time", each with a dictionary of parameter and value pairs.
 
     Returns:
-        if FORMAT is "CSV", a string of the CSV data.
-        if FORMAT is "JSON", a dictionary with the data for the given commodity.
-        if FORMAT is "XML", a string of the XML data.
+        A string containing the API response data or an error message.
     """
     params = {
         "format": FORMAT,
@@ -270,7 +268,7 @@ async def get_db_record_count(query: Query) -> str:
         query: Dictionary with three keys, "commodity", "location", and "time", each with a dictionary of parameter and value pairs.
 
     Returns:
-        A dictionary with one key, "count", and a value of the number of records.
+        A JSON string containing one key, "count", and a value of the number of records or an error message.
     """
     params = {
         **query["commodity"],
@@ -287,7 +285,7 @@ async def get_param_values(parameter: ParameterQuery) -> str:
         parameter: Dictionary with one key, "param", and a value of the parameter name to get the values for.
 
     Returns:
-        A dictionary with the parameter name and all possible values as a list.
+        A JSON string with the parameter name and all possible values as a list or an error message.
     """
     return await api("get_param_values", {**parameter})
 
