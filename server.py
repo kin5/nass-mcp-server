@@ -4,9 +4,10 @@ import httpx
 import os
 from mcp.server.fastmcp import FastMCP
 
-from dotenv import load_dotenv
+if os.getenv("NASS_ENV") != "production":
+    from dotenv import load_dotenv
+    load_dotenv()
 
-load_dotenv()
 
 ########################################################
 # Definitions
@@ -159,8 +160,8 @@ async def api(endpoint: str, params: dict) -> dict:
 ########################################################
 mcp = FastMCP(
     "USDA NASS API MCP Server",
-    host=os.getenv("HOST", "0.0.0.0"),
-    port=os.getenv("PORT", 8000),
+    host=os.getenv("NASS_MCP_HOST", "0.0.0.0"),
+    port=os.getenv("NASS_MCP_PORT", 8000),
 )
 
 ########################################################
@@ -216,8 +217,8 @@ def get_parameter_names() -> List[str]:
         "load_time",
     ]
 
-@mcp.resource("nass://operator_names", title="Operator Names", description="List of operators that can be appended to parameter names in a query")
-def get_operator_names() -> List[str]:
+@mcp.resource("nass://operators", title="Query Parameter Operators", description="List of operators that can be appended to parameter names in a query")
+def get_operators() -> List[str]:
     """Operators that can be used in a query by appending them to parameter names to filter results.
 
     Examples:

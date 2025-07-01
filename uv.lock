@@ -211,6 +211,9 @@ requires-dist = [
     { name = "python-dotenv", specifier = ">=1.1.1" },
 ]
 
+[package.metadata.requires-dev]
+dev = []
+
 [[package]]
 name = "pydantic"
 version = "2.11.7"
