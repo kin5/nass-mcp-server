@@ -138,20 +138,13 @@ class Query(TypedDict):
 ########################################################
 # API
 ########################################################
-async def api(endpoint: str, params: dict) -> dict:
+async def api(endpoint: str, params: dict) -> str:
     url = URL.format(endpoint=endpoint)
     full_params = {"key": API_KEY, **params}
     response = httpx.get(url, params=full_params)
 
     if not response.is_success:
-        return {
-            "status": "error",
-            "message": response.text,
-            "http_status": response.status_code,
-        }
-
-    if "json" in response.headers.get("content-type", "").lower():
-        return response.json()
+        return f"API Error: {response.status_code} {response.text}"
         
     return response.text
 
@@ -250,14 +243,16 @@ def get_operators() -> List[str]:
 # Tools
 ########################################################
 @mcp.tool()
-async def get_full_dataset(query: Query) -> dict:
+async def get_full_dataset(query: Query) -> str:
     """Get all available data for a given commodity, location, and time.
 
     Args:
         query: Dictionary with three keys, "commodity", "location", and "time", each with a dictionary of parameter and value pairs.
 
     Returns:
-        A dictionary with the data for the given commodity.
+        if FORMAT is "CSV", a string of the CSV data.
+        if FORMAT is "JSON", a dictionary with the data for the given commodity.
+        if FORMAT is "XML", a string of the XML data.
     """
     params = {
         "format": FORMAT,
@@ -268,7 +263,7 @@ async def get_full_dataset(query: Query) -> dict:
     return await api("api_GET", params)
 
 @mcp.tool()
-async def get_db_record_count(query: Query) -> dict:
+async def get_db_record_count(query: Query) -> str:
     """Get the number, or count, of database records of a given commodity for a location and time.
 
     Args:
@@ -285,7 +280,7 @@ async def get_db_record_count(query: Query) -> dict:
     return await api("get_counts", params)
 
 @mcp.tool()
-async def get_param_values(parameter: ParameterQuery) -> dict:
+async def get_param_values(parameter: ParameterQuery) -> str:
     """Get all possible values of a query parameter by its name.
 
     Args:

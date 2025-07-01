@@ -1,8 +1,44 @@
 # MCP Server for USDA NASS API
 The [USDA National Agricultural Statistics Service API](https://quickstats.nass.usda.gov/api), known as *Quick Stats*, contains survey and census data on United States agricultural production.
 
-## NASS API access
+### NASS API access
 Request an API key [here](https://quickstats.nass.usda.gov/api).
+
+## Tools
+### `get_full_dataset(query: Query) -> str`
+
+Get all available data for a given commodity, location, and time.
+
+**Arguments:**
+- `query` (`Query`): Dictionary with three keys, `"commodity"`, `"location"`, and `"time"`, each with a dictionary of parameter and value pairs.
+
+**Returns:**
+- `str`: Full response text as a string
+
+---
+
+### `get_db_record_count(query: Query) -> str`
+
+Get the number, or count, of database records of a given commodity for a location and time.
+
+**Arguments:**
+- `query` (`Query`): Dictionary with three keys, `"commodity"`, `"location"`, and `"time"`, each with a dictionary of parameter and value pairs.
+
+**Returns:**
+- `str`: String of JSON data with one key, `"count"`, and a value of the number of records.
+
+---
+
+### `get_param_values(query: ParamQuery) -> str`
+
+Get all possible values of a query parameter by its name.
+
+**Arguments:**
+- `parameter` (`ParameterQuery`): Dictionary with one key, `"param"`, and a value of the parameter name to get the values for.
+
+**Returns:**
+- `str`: String of JSON data with the parameter names and all their possible values as a list.
+
 
 ## Getting started
 I highly recommend using [uv](https://github.com/astral-sh/uv) for package and virtual environment management.
