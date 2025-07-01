@@ -29,7 +29,7 @@ Get the number, or count, of database records of a given commodity for a locatio
 
 ---
 
-### `get_param_values(query: ParamQuery) -> str`
+### `get_param_values(query: ParameterQuery) -> str`
 
 Get all possible values of a query parameter by its name.
 
